@@ -1,6 +1,5 @@
 precmd() {
     RPROMPT=""
-
 }
 
 zle-keymap-select() {
@@ -24,13 +23,15 @@ function box_name {
     [ -f ~/.box-name ] && cat ~/.box-name || hostname -s
 }
 
+PREFIX="\$(~/.rvm/bin/rvm-prompt)"
 ONE_LINER='%{$fg[magenta]%}%n%{$reset_color%} at %{$fg[yellow]%}$(box_name)%{$reset_color%} in %{$fg[green]%}%~%{$reset_color%}$(git_prompt_info) %{$reset_color%}%(?,,%{${fg_bold[blue]}%}[%?]%{$reset_color%} )'
-TWO_LINER="$ONE_LINER"$'\n'"$ "
+TWO_LINER="$PREFIX"$'\n'"$ONE_LINER"$'\n'"$ "
+MAIN_PMT="%{$fg[red]%}$PREFIX%{$reset_color%}"$'\n'"$ONE_LINER$ "
 
 if [[ $COLUMNS -lt 80 ]]; then
     PROMPT=$TWO_LINER
 else
-    PROMPT="$ONE_LINER$ "
+    PROMPT=$MAIN_PMT
 fi
 
 ZSH_THEME_GIT_PROMPT_PREFIX=" on %{$fg[magenta]%}"
