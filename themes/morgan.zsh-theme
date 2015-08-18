@@ -23,10 +23,10 @@ function box_name {
     [ -f ~/.box-name ] && cat ~/.box-name || hostname -s
 }
 
-RUBY_VERSION="\$(~/.rvm/bin/rvm-prompt v)"
+RUBY_VERSION="\$(~/.rvm/bin/rvm-prompt u)"
 RUBY_GEMSET="\$(~/.rvm/bin/rvm-prompt g)"
 ONE_LINER='%{$fg[magenta]%}%n%{$reset_color%} at %{$fg[yellow]%}$(box_name)%{$reset_color%} in %{$fg[green]%}%~%{$reset_color%}$(git_prompt_info) %{$reset_color%}%(?,,%{${fg_bold[blue]}%}[%?]%{$reset_color%} )'
-MAIN_PMT="%{$fg[red]%}$RUBY_VERSION%{$reset_color%} %{$fg[blue]%}$RUBY_GEMSET%{$reset_color%}"$'\n'"$ONE_LINER"
+MAIN_PMT="%{$fg_no_bold[red]%}$RUBY_VERSION%{$reset_color%} %{$fg[blue]%}$RUBY_GEMSET%{$reset_color%}"$'\n'"$ONE_LINER"
 TWO_LINER="$MAIN_PMT"$'\n'"$ "
 
 if [[ $COLUMNS -lt 80 ]]; then
