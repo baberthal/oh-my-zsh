@@ -1,5 +1,8 @@
 precmd() {
-    RPROMPT=""
+    local version="\$(~/.rvm/bin/rvm-prompt v)"
+    [[ $(~/.rvm/bin/rvm-prompt i) = 'ruby' ]] && local interp='' || local interp=$(~/.rvm/bin/rvm-prompt i)
+    local gemset="${$(~/.rvm/bin/rvm-prompt g)#'@'}"
+    RPROMPT="%{$fg[yellow]%}$interp%{$reset_color%}%{$fg[red]%}$version%{$reset_color%} @ %{$fg[blue]%}$gemset%{$reset_color%}"
 }
 
 zle-keymap-select() {
@@ -23,17 +26,16 @@ function box_name {
     [ -f ~/.box-name ] && cat ~/.box-name || hostname -s
 }
 
-RUBY_VERSION="\$(~/.rvm/bin/rvm-prompt u)"
-RUBY_GEMSET="\$(~/.rvm/bin/rvm-prompt g)"
 ONE_LINER='%{$fg[magenta]%}%n%{$reset_color%} at %{$fg[yellow]%}$(box_name)%{$reset_color%} in %{$fg[green]%}%~%{$reset_color%}$(git_prompt_info) %{$reset_color%}%(?,,%{${fg_bold[blue]}%}[%?]%{$reset_color%} )'
-MAIN_PMT="%{$fg_no_bold[red]%}$RUBY_VERSION%{$reset_color%} %{$fg[blue]%}$RUBY_GEMSET%{$reset_color%}"$'\n'"$ONE_LINER"
-TWO_LINER="$MAIN_PMT"$'\n'"$ "
+TWO_LINER="$ONE_LINER"$'\n'"$ "
 
 if [[ $COLUMNS -lt 80 ]]; then
     PROMPT=$TWO_LINER
 else
-    PROMPT="$MAIN_PMT$ "
+    PROMPT="$ONE_LINER$ "
 fi
+
+RPROMPT='$(rvm_info)'
 
 ZSH_THEME_GIT_PROMPT_PREFIX=" on %{$fg[magenta]%}"
 ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%}"
