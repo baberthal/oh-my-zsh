@@ -1,8 +1,8 @@
 precmd() {
     local version="\$(~/.rvm/bin/rvm-prompt v)"
-    [[ $(~/.rvm/bin/rvm-prompt i) = 'ruby' ]] && local interp='' || local interp=$(~/.rvm/bin/rvm-prompt i)
-    local gemset="${$(~/.rvm/bin/rvm-prompt g)#'@'}"
-    RPROMPT="%{$fg[yellow]%}$interp%{$reset_color%}%{$fg[red]%}$version%{$reset_color%} @ %{$fg[blue]%}$gemset%{$reset_color%}"
+    [[ $(~/.rvm/bin/rvm-prompt i) = 'ruby' ]] && local interp='' || local interp=$(~/.rvm/bin/rvm-prompt u)
+    [[ $(~/.rvm/bin/rvm-prompt g) = '' ]] && local gemset='(default)' || local gemset="${$(~/.rvm/bin/rvm-prompt g)#'@'}"
+    RPROMPT="%{$fg[yellow]%}$interp%{$reset_color%} %{$fg[red]%}$version%{$reset_color%} @ %{$fg[blue]%}$gemset%{$reset_color%}"
 }
 
 zle-keymap-select() {
