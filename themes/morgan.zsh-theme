@@ -1,8 +1,10 @@
 precmd() {
-    local version="\$(~/.rvm/bin/rvm-prompt v)"
-    [[ $(~/.rvm/bin/rvm-prompt i) = 'ruby' ]] && local interp='' || local interp=$(~/.rvm/bin/rvm-prompt u)
-    [[ $(~/.rvm/bin/rvm-prompt g) = '' ]] && local gemset='(default)' || local gemset="${$(~/.rvm/bin/rvm-prompt g)#'@'}"
-    RPROMPT="%{$fg[yellow]%}$interp%{$reset_color%} %{$fg[red]%}$version%{$reset_color%} @ %{$fg[blue]%}$gemset%{$reset_color%}"
+    if [ -d ~/.rvm ]; then
+        local version="\$(~/.rvm/bin/rvm-prompt v)"
+        [[ $(~/.rvm/bin/rvm-prompt i) = 'ruby' ]] && local interp='' || local interp=$(~/.rvm/bin/rvm-prompt u)
+        [[ $(~/.rvm/bin/rvm-prompt g) = '' ]] && local gemset='(default)' || local gemset="${$(~/.rvm/bin/rvm-prompt g)#'@'}"
+        RPROMPT="%{$fg[yellow]%}$interp%{$reset_color%} %{$fg[red]%}$version%{$reset_color%} @ %{$fg[blue]%}$gemset%{$reset_color%}"
+    fi
 }
 
 zle-keymap-select() {
@@ -19,11 +21,11 @@ zle -N zle-keymap-select
 zle -N zle-line-init
 
 function virtualenv_info {
-    [ $VIRTUAL_ENV ] && echo '('`basename $VIRTUAL_ENV`') '
+[ $VIRTUAL_ENV ] && echo '('`basename $VIRTUAL_ENV`') '
 }
 
 function box_name {
-    [ -f ~/.box-name ] && cat ~/.box-name || hostname -s
+[ -f ~/.box-name ] && cat ~/.box-name || hostname -s
 }
 
 ONE_LINER='%{$fg[magenta]%}%n%{$reset_color%} at %{$fg[yellow]%}$(box_name)%{$reset_color%} in %{$fg[green]%}%~%{$reset_color%}$(git_prompt_info) %{$reset_color%}%(?,,%{${fg_bold[blue]}%}[%?]%{$reset_color%} )'
