@@ -25,6 +25,7 @@ alias zake='noglob zeus rake'
 # Generate
 alias zg='zeus generate'
 alias zenerate='zeus generate'
+alias zd='zeus destroy'
 
 # Runner
 alias zrn='zeus runner'
@@ -67,3 +68,43 @@ alias zdbc='zeus rake db:create'
 
 # Create, migrate and prepare database
 alias zdbcm='zeus rake db:create db:migrate db:test:prepare'
+
+_zake_refresh () {
+    if [ -f .zake_tasks ]; then
+        rm .zake_tasks
+    fi
+    echo "Generating .zake_tasks..." > /dev/stderr
+    _zake_generate
+    cat .zake_tasks
+}
+
+_zake_does_task_list_need_generating () {
+    if [ ! -f .zake_tasks ]; then return 0;
+    else
+        if [[ "$OSTYPE" = darwin* ]]; then
+            accurate=$(stat -f%m .zake_tasks)
+            changed=$(stat -f%m Rakefile)
+        else
+            accurate=$(stat -c%Y .zake_tasks)
+            changed=$(stat -c%Y Rakefile)
+        fi
+        return $(expr $accurate '>=' $changed)
+    fi
+}
+
+_zake_generate () {
+    rake --silent --tasks | cut -d " " -f 2 > .zake_tasks
+}
+
+_zake () {
+    if [ -f Rakefile ]; then
+        if _zake_does_task_list_need_generating; then
+            echo "\nGenerating .zake_tasks..." > /dev/stderr
+            _zake_generate
+        fi
+        compadd `cat .zake_tasks`
+    fi
+}
+
+compdef _zake zake
+alias zake_refresh='_zake_refresh'

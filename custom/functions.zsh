@@ -15,7 +15,7 @@ ssh() {
   # Save the current name
   if [[ $remote != -* ]]; then
     renamed=1
-    tmux rename-window $remote
+    tmux rename-window ${remote#*@}
   fi
   command ssh $@
   if [[ $renamed == 1 ]]; then

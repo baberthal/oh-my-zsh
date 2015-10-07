@@ -1,0 +1,47 @@
+#compdef chef
+#autoload
+
+local -a _1st_arguments
+_1st_arguments=(
+    'exec:Runs the command in context of the embedded ruby'
+    'gem:Runs the `gem` command in context of the embedded ruby'
+    'generate:Generate a new app, cookbook, or component'
+    'shell-init:Initialize your shell to use ChefDB as your primary ruby'
+    'install:Install cookbooks from a Policyfile and generate a locked cookbook set'
+    'update:Updates a Policyfile.lock.json with latest run_list and cookbooks'
+    'push:Push a local policy lock to a policy group on the server'
+    'diff:Generate an itemized diff of two Policyfile lock documents'
+    'provision:Provision VMs and clusters via cookbook'
+    'export:Export a policy lock as a Chef Zero code repo'
+    'verify:Test the embedded ChefDB applications'
+)
+
+_chef_generate_arguments() {
+  generate_arguments=(
+    app
+    cookbook
+    recipe
+    attribute
+    template
+    file
+    lwrp
+    repo
+    policyfile
+  )
+}
+
+_arguments \
+    '(--version)--version[show version]' \
+    '(--help)--help[show help]' \
+    '*:: :->subcmds' && return 0
+
+if (( CURRENT == 1 )); then
+  _describe -t commands "chef subcommand" _1st_arguments
+  return
+fi
+
+case "$words[1]" in
+  g|generate)
+    _chef_generate_arguments
+    _wanted generate_arguments expl 'all generate' compadd -a generate_arguments ;;
+esac

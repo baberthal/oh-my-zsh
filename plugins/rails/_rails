@@ -20,7 +20,12 @@ _1st_arguments=(
 )
 
 _rails_generate_arguments() {
-    generate_arguments=(
+    if [ -f .generators ]; then
+        generate_arguments=(
+        `cat .generators`
+        )
+    else
+        generate_arguments=(
         assets
         controller
         decorator
@@ -39,9 +44,17 @@ _rails_generate_arguments() {
         session_migration
         stylesheets
         task
-    )
+        )
+    fi
 }
 
+_rails_generator_arg_refresh() {
+  if [ -f .generators ]; then
+    rm .generators
+  fi
+  echo "Generating .generators..." > /dev/stderr
+  rails_generator_arguments > .generators
+}
 
 _arguments \
     '(--version)--version[show version]' \

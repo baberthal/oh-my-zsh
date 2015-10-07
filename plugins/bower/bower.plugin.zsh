@@ -1,6 +1,8 @@
-alias bi="bower install"
-alias bl="bower list"
-alias bs="bower search"
+alias boi="bower install"
+alias bol="bower list"
+alias bos="bower search"
+alias boiS="bower install --save"
+alias boiD="bower install --save-dev"
 
 _bower_installed_packages () {
     bower_package_list=$(bower ls --no-color 2>/dev/null| awk 'NR>3{print p}{p=$0}'| cut -d ' ' -f 2|sed 's/#.*//')

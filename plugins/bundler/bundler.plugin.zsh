@@ -4,7 +4,7 @@ alias bp="bundle package"
 alias bo="bundle open"
 alias bout="bundle outdated"
 alias bu="bundle update"
-alias bi="bundle_install"
+alias bi="bundle install"
 alias bcn="bundle clean"
 
 bundled_commands=(
