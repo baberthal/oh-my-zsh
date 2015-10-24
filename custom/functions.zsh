@@ -85,3 +85,7 @@ function chef-encrypt() {
   fi
   knife data bag from file $databag $to_enc --secret-file $key $@
 }
+
+function use-ruby() {
+  rvm --ruby-version use $1 --create
+}
