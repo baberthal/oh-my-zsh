@@ -1,3 +1,9 @@
 [submodule "custom/plugins/zsh-completions"]
 	path = custom/plugins/zsh-completions
 	url = https://github.com/zsh-users/zsh-completions
+[submodule "custom/plugins/berkshelf-zsh-plugin"]
+	path = custom/plugins/berkshelf-zsh-plugin
+	url = https://github.com/berkshelf/berkshelf-zsh-plugin.git
+[submodule "custom/plugins/berkshelf"]
+	path = custom/plugins/berkshelf
+	url = https://github.com/berkshelf/berkshelf-zsh-plugin.git
